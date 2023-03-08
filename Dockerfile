@@ -1,4 +1,5 @@
-FROM ubuntu:latest 
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim-bullseye
 # Installing dependencies for running a python application 
 RUN apt-get update && apt-get install -y python3 python3-pip postgresql-client libpq-dev 
 # Install pipenv 
@@ -11,4 +12,6 @@ RUN pipenv update && pipenv install --system --deploy
 # Copying our application into the container 
 COPY todo todo 
 # Running our application 
-CMD ["flask", "--app", "todo", "run", "--host", "0.0.0.0", "--port", "6400"]
+# CMD ["flask", "--app", "todo", "run", "--host", "0.0.0.0", "--port", "6400"]
+# Adding a delay to our application startup 
+CMD ["bash", "-c", "sleep 10 && flask --app todo run --host 0.0.0.0 --port 6400"]
